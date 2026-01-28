@@ -3,8 +3,8 @@ public class Trader extends Person {
     private int id;
     private double sold;
 
-    public Trader(String name, String email, String password, int id, double sold) {
-        super(name, email, password);
+    public Trader(String name ,int id, double sold) {
+        super(name);
         this.id = id;
         this.sold = sold;
     }

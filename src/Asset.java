@@ -2,13 +2,11 @@ public class Asset {
     private int code;
     private String nomAsset;
     private double prix;
-    private String type;
 
-    public Asset(int code, String nomAsset, double prix, String type) {
+    public Asset(int code, String nomAsset, double prix) {
         this.code = code;
         this.nomAsset = nomAsset;
         this.prix = prix;
-        this.type = type;
     }
 
     public int getCode() {
@@ -35,13 +33,6 @@ public class Asset {
         this.prix = prix;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     @Override
     public String toString() {
@@ -49,7 +40,6 @@ public class Asset {
                 "code=" + code +
                 ", nomAsset='" + nomAsset + '\'' +
                 ", prix=" + prix +
-                ", type='" + type + '\'' +
                 '}';
     }
 }

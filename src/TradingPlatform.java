@@ -7,11 +7,9 @@ public class TradingPlatform {
     private ArrayList<Transaction> transactions = new ArrayList<>();
 
 
-
-
-    public Trader findTrader(String acc ){
+    public Trader findTrader(int acc ){
         for (Trader trader : traders){
-           if(trader.getEmail().equals(acc)){
+           if(trader.getId() == acc){
                return trader;
 
            }
@@ -21,6 +19,7 @@ public class TradingPlatform {
 
 
     public void ajouteTrader(Scanner input){
+        System.out.println("=========Créer un compte=========");
         System.out.println("Ecrivez id: ");
         int id = input.nextInt();
         input.nextLine();
@@ -29,34 +28,11 @@ public class TradingPlatform {
         System.out.println("Ecrivez votre sold: ");
         double sold = input.nextDouble();
         input.nextLine();
-        System.out.println("Ecrivez votre email: ");
-        String email = input.nextLine();
-        System.out.println("Ecrivez votre password: ");
-        String password = input.nextLine();
 
-        Trader trader = new Trader(name,email, password, id, sold);
+        Trader trader = new Trader(name, id, sold);
         traders.add(trader);
         System.out.println("tzad binajah");
     }
-
-    public void verifyLogin(Scanner input){
-        System.out.println("Ecrivez votre email: ");
-        String email = input.nextLine();
-        Trader trader = findTrader(email);
-        if (trader != null){
-            System.out.println("Entre votre password: ");
-            String password = input.nextLine();
-            Trader trader1 = findTrader(password);
-            if (trader1 != null){
-                System.out.println("rak dkhalty");
-            }
-        }
-
-
-    }
-
-
-
 
 
 
