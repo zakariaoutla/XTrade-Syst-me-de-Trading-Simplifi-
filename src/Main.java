@@ -1,93 +1,90 @@
 import java.util.Scanner;
 
-
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-
         TradingPlatform plat = new TradingPlatform();
 
         int choice = 0;
 
         do {
+            System.out.println("\n===========================================");
+            System.out.println("       Bienvenue sur XTrade");
             System.out.println("===========================================");
-            System.out.println("Welcom to Xtrader");
-            System.out.println("===========================================");
-            System.out.println("1.Trader");
-            System.out.println("2.Admin");
-            System.out.println("0.QUITTER");
-            System.out.println("Ecrivez votre choice: ");
+            System.out.println("1.TRADER");
+            System.out.println("2.ADMIN");
+            System.out.println("0. QUITTER");
+            System.out.print("Votre choix: ");
+
             choice = input.nextInt();
             input.nextLine();
 
+            if (choice == 1) {
+                int choiceTrader = 0;
+                do {
+                    System.out.println("\n--- MENU TRADER ---");
+                    System.out.println("1. Passer un ordre d'ACHAT");
+                    System.out.println("2. Passer un ordre de VENTE");
+                    System.out.println("3. Consulter le portefeuille");
+                    System.out.println("4. Historique Global");
+                    System.out.println("0. Retour");
+                    System.out.print("Choix: ");
 
+                    choiceTrader = input.nextInt();
+                    input.nextLine();
 
+                    switch (choiceTrader) {
+                        case 1:
+                            plat.passerOrdreAchat(input);
+                            break;
+                        case 2:
+                            plat.passerOrdreVente(input);
+                            break;
+                        case 3:
+                            plat.consulterPortefeuille(input);
+                            break;
+                        case 4:
+                            plat.afficherHistorique();
+                            break;
+                        case 0:
+                            break;
+                        default: System.out.println("Choix invalide.");
+                    }
+                } while (choiceTrader != 0);
 
-        if(choice == 1){
-            int choiceTrader = 0;
-            do {
-                System.out.println("1.Passer un ordre d'ACHAT");
-                System.out.println("2.Passer un ordre de VENTE");
-                System.out.println("3.Consulter le portefeuille d'un trader");
-                System.out.println("4.Afficher l'historique des transactions");
-                System.out.println("0.QUITTER");
+            } else if (choice == 2) {
+                int choiceAdmin = 0;
+                do {
+                    System.out.println("\n--- MENU ADMIN ---");
+                    System.out.println("1. Créer un compte Trader");
+                    System.out.println("2. Ajouter un nouvel Actif");
+                    System.out.println("3. Afficher les Actifs disponibles");
+                    System.out.println("0. Retour");
+                    System.out.print("Choix: ");
 
-                System.out.println("Entre un choice: ");
-                choiceTrader = input.nextInt();
-                input.nextLine();
+                    choiceAdmin = input.nextInt();
+                    input.nextLine();
 
-                switch (choiceTrader){
-                    case 1:
-                        System.out.println("=========Passer un ordre d'ACHAT==========");
+                    switch (choiceAdmin) {
+                        case 1:
+                            plat.ajouteTrader(input);
+                            break;
+                        case 2:
+                            plat.ajouterActif(input);
                         break;
-                    case 2:
-                        System.out.println("=========Passer un ordre de VENTE==========");
+                        case 3:
+                            plat.afficherActifs();
                         break;
-                    case 3:
-                        System.out.println("=========Consulter le portefeuille d'un trader==========");
-                        break;
-                    case 4:
-                        System.out.println("=========Afficher l'historique des transactions==========");
-                        break;
-                    default:
-                        System.out.println("QUITTER");
+                        case 0:
+                            break;
+                        default: System.out.println("Choix invalide.");
+                    }
+                } while (choiceAdmin != 0);
+            }
 
-                }
+        } while (choice != 0);
 
-            }while (choiceTrader !=0);
-        }else if (choice == 2){
-            int choiceAdmin = 0;
-            do {
-                System.out.println("1.Créer un compte");
-                System.out.println("2.Ajouter un nouvel actif");
-                System.out.println("3.Afficher la liste des actifs disponibles");
-                System.out.println("0.QUITTER");
-
-                System.out.println("Entre un choice: ");
-                choiceAdmin = input.nextInt();
-                input.nextLine();
-
-                switch (choiceAdmin){
-                    case 1:
-                        System.out.println("=========Créer un compte==========");
-                        plat.ajouteTrader(input);
-                        break;
-                    case 2:
-                        System.out.println("=========Ajouter un nouvel actif==========");
-                        break;
-                    case 3:
-                        System.out.println("=========Afficher la liste des actifs disponibles==========");
-                        break;
-                    default:
-                        System.out.println("QUITTER");
-
-
-                }
-
-            }while (choiceAdmin !=0);
-        }
-        }while (choice !=0);
-        }
-
-
+        System.out.println("Au revoir !");
+        input.close();
     }
+}

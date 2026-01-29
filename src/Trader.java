@@ -1,35 +1,31 @@
 public class Trader extends Person {
+    private double balance;
+    private Portfolio portfolio;
 
-    private int id;
-    private double sold;
-
-    public Trader(String name ,int id, double sold) {
-        super(name);
-        this.id = id;
-        this.sold = sold;
+    public Trader(int id, String name, double balance) {
+        super(id, name);
+        this.balance = balance;
+        this.portfolio = new Portfolio();
     }
 
-    public int getId() {
-        return id;
+    public double getBalance() {
+        return balance;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Portfolio getPortfolio() {
+        return portfolio;
     }
 
-    public double getSold() {
-        return sold;
+    public void withdraw(double amount) {
+        this.balance -= amount;
     }
 
-    public void setSold(double sold) {
-        this.sold = sold;
+    public void deposit(double amount) {
+        this.balance += amount;
     }
 
     @Override
     public String toString() {
-        return "Trader{" +
-                "id=" + id +
-                ", sold=" + sold +
-                '}';
+        return "ID: " + id + " | " + name + " | Solde: " + balance + " DH";
     }
 }
