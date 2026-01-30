@@ -1,4 +1,6 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,7 +49,7 @@ public class TradingPlatform {
     }
 
     public void afficherActifs() {
-        System.out.println("--- LISTE DES ACTIFS ---");
+        System.out.println("==== LISTE DES ACTIFS ====");
         for (Asset a : assets) {
             System.out.println(a);
         }
@@ -55,10 +57,30 @@ public class TradingPlatform {
 
 
     public void passerOrdreAchat(Scanner input) {
+        Trader t = loginTrader(input);
+        if (t == null) return;
 
+        afficherActifs();
+        System.out.println("Entre code actifs: ");
+        String code = input.nextLine();
+        Asset a = findAsset(code);
+        if (a == null) return;
+        System.out.println("Entre qty: ");
+        double qty = input.nextDouble();
+        double total = qty * a.getPrice();
+
+        if(t.getBalance()<total){
+            System.out.println("flous walo");
+        }else {
+            t.withdraw(total);
+            history.add(new Transaction("Achat", code, qty, a.getPrice(), new Date()));
+            System.out.println("rah done");
+            System.out.println("new balance: "+ t.getBalance());
+        }
     }
 
     public void passerOrdreVente(Scanner input) {
+
 
     }
 
@@ -67,7 +89,7 @@ public class TradingPlatform {
     }
 
     public void afficherHistorique() {
-        System.out.println("--- HISTORIQUE GLOBAL ---");
+        System.out.println("==== HISTORIQUE GLOBAL ====");
         for (Transaction t : history) {
             System.out.println(t);
         }
@@ -90,6 +112,7 @@ public class TradingPlatform {
     private Trader loginTrader(Scanner input) {
         System.out.print("Entrez votre ID Trader: ");
         int id = input.nextInt();
+        input.nextLine();
         Trader t = findTrader(id);
         if (t == null) System.out.println("Trader introuvable.");
         return t;

@@ -16,12 +16,15 @@ public class Trader extends Person {
         return portfolio;
     }
 
-    public void withdraw(double amount) {
+    public double withdraw(double amount) {
+
         this.balance -= amount;
+        return balance;
     }
 
-    public void deposit(double amount) {
+    public double deposit(double amount) {
         this.balance += amount;
+        return balance;
     }
 
     @Override
