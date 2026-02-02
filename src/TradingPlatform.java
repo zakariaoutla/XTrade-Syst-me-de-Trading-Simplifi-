@@ -73,6 +73,7 @@ public class TradingPlatform {
             System.out.println("Sold insuffisant");
         }else {
             t.withdraw(total);
+            t.getPortfolio().addAsset(code, qty);
             history.add(new Transaction("Achat", code, qty, a.getPrice(), new Date()));
             System.out.println("L'opération s'est déroulée avec succés");
             System.out.println("new balance: "+ t.getBalance());
@@ -80,12 +81,47 @@ public class TradingPlatform {
     }
 
     public void passerOrdreVente(Scanner input) {
+        Trader t = loginTrader(input);
+        if (t == null) return;
 
+        System.out.println("--- Votre Portefeuille ---");
+        t.getPortfolio().afficher();
 
+        System.out.print("Code de l'actif à vendre: ");
+        String code = input.next();
+
+        Asset a = findAsset(code);
+        if (a == null) {
+            System.out.println("Erreur: Cet actif n'existe pas sur le marché.");
+            return;
+        }
+
+        System.out.print("Quantité: ");
+        int qty = input.nextInt();
+
+        boolean success = t.getPortfolio().removeAsset(code, qty);
+
+        if (success) {
+            // Calcul du montant gagné
+            double totalGain = qty * a.getPrice();
+
+            t.deposit(totalGain);
+
+            history.add(new Transaction("Vente", code, qty, a.getPrice(), new Date()));
+
+            System.out.println("Vente réussie !");
+            System.out.println("   Nouveau Solde: " + t.getBalance() + " DH");
+        } else {
+            System.out.println("Vous ne possédez pas assez de quantité pour cet actif.");
+        }
     }
 
     public void consulterPortefeuille(Scanner input) {
-
+        Trader t = loginTrader(input);
+        if (t != null) {
+            System.out.println("Solde Cash: " + t.getBalance() + " DH");
+            t.getPortfolio().afficher();
+        }
     }
 
     public void afficherHistorique() {
@@ -116,5 +152,29 @@ public class TradingPlatform {
         Trader t = findTrader(id);
         if (t == null) System.out.println("Trader introuvable.");
         return t;
+    }
+
+    public void transactionsTrader(Scanner input){
+        System.out.println("===Recherche de trader===");
+        Trader tr = loginTrader(input);
+        if(tr == null) return;
+        System.out.println("=== transaction Trader ===");
+        traders.stream()
+                .filter(t -> t.getId() == tr.getId())
+                .forEach(System.out::println);
+
+    }
+
+    public void transactionsType(Scanner input){
+        System.out.println("===Recherche de trader===");
+        System.out.println("Entre code : ");
+        String code = input.nextLine();
+        Asset asset = findAsset(code);
+        if(asset == null) return;
+        System.out.println("=== transaction Trader ===");
+        assets.stream()
+                .filter(as -> as.getCode().equals(code) )
+                .forEach(System.out::println);
+
     }
 }

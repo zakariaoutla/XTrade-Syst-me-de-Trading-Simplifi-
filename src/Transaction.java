@@ -18,6 +18,12 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return type + ": " + qty + " x " + assetCode + " à " + price + " DH";
+        return "Transaction{" +
+                "type='" + type + '\'' +
+                ", assetCode='" + assetCode + '\'' +
+                ", qty=" + qty +
+                ", price=" + price +
+                ", date=" + date +
+                '}';
     }
 }

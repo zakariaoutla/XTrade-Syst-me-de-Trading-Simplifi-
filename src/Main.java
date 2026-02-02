@@ -27,6 +27,7 @@ public class Main {
                     System.out.println("2. Passer un ordre de VENTE");
                     System.out.println("3. Consulter le portefeuille");
                     System.out.println("4. Historique Global");
+                    System.out.println("5. Transactions d’un trader");
                     System.out.println("0. Retour");
                     System.out.print("Choix: ");
 
@@ -46,6 +47,8 @@ public class Main {
                         case 4:
                             plat.afficherHistorique();
                             break;
+                        case 5:
+                            plat.transactionsTrader(input);
                         case 0:
                             break;
                         default: System.out.println("Choix invalide.");
