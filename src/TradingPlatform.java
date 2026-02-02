@@ -70,11 +70,11 @@ public class TradingPlatform {
         double total = qty * a.getPrice();
 
         if(t.getBalance()<total){
-            System.out.println("flous walo");
+            System.out.println("Sold insuffisant");
         }else {
             t.withdraw(total);
             history.add(new Transaction("Achat", code, qty, a.getPrice(), new Date()));
-            System.out.println("rah done");
+            System.out.println("L'opération s'est déroulée avec succés");
             System.out.println("new balance: "+ t.getBalance());
         }
     }

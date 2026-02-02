@@ -3,3 +3,5 @@ public class CryptoCurrency extends Asset {
         super(code, label, price);
     }
 }
+
+
