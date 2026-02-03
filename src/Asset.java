@@ -13,8 +13,24 @@ public abstract class Asset {
         return code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     public double getPrice() {
         return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override

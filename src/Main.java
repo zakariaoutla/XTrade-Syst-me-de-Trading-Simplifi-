@@ -28,6 +28,9 @@ public class Main {
                     System.out.println("3. Consulter le portefeuille");
                     System.out.println("4. Historique Global");
                     System.out.println("5. Transactions d’un trader");
+                    System.out.println("6. Recherche de trader par type");
+                    System.out.println("7. Recherche de trader par code");
+                    System.out.println("8. Recherche de trader par years");
                     System.out.println("0. Retour");
                     System.out.print("Choix: ");
 
@@ -49,6 +52,16 @@ public class Main {
                             break;
                         case 5:
                             plat.transactionsTrader(input);
+                            break;
+                        case 6:
+                            plat.transactionsType(input);
+                            break;
+                        case 7:
+                            plat.transactionsByActifs(input);
+                            break;
+                        case 8:
+                            plat.transationbyYears(input);
+                            break;
                         case 0:
                             break;
                         default: System.out.println("Choix invalide.");

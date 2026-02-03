@@ -1,3 +1,4 @@
+import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,7 +75,7 @@ public class TradingPlatform {
         }else {
             t.withdraw(total);
             t.getPortfolio().addAsset(code, qty);
-            history.add(new Transaction("Achat", code, qty, a.getPrice(), new Date()));
+            history.add(new Transaction("Achat", a, qty, a.getPrice(), new Date()));
             System.out.println("L'opération s'est déroulée avec succés");
             System.out.println("new balance: "+ t.getBalance());
         }
@@ -102,12 +103,11 @@ public class TradingPlatform {
         boolean success = t.getPortfolio().removeAsset(code, qty);
 
         if (success) {
-            // Calcul du montant gagné
             double totalGain = qty * a.getPrice();
 
             t.deposit(totalGain);
 
-            history.add(new Transaction("Vente", code, qty, a.getPrice(), new Date()));
+            history.add(new Transaction("Vente", a, qty, a.getPrice(), new Date()));
 
             System.out.println("Vente réussie !");
             System.out.println("   Nouveau Solde: " + t.getBalance() + " DH");
@@ -167,14 +167,32 @@ public class TradingPlatform {
 
     public void transactionsType(Scanner input){
         System.out.println("===Recherche de trader===");
-        System.out.println("Entre code : ");
+        System.out.println("Entre type: ");
+        String type = input.nextLine();
+        System.out.println("=== transaction Trader ===");
+        history.stream()
+                .filter(as -> as.getType().equals(type) )
+                .forEach(System.out::println);
+    }
+
+    public void transactionsByActifs(Scanner input){
+        System.out.println("===Recherche de asset===");
+        System.out.println("Entre code: ");
         String code = input.nextLine();
         Asset asset = findAsset(code);
-        if(asset == null) return;
-        System.out.println("=== transaction Trader ===");
-        assets.stream()
-                .filter(as -> as.getCode().equals(code) )
+        if (asset == null) return;
+        System.out.println("=== transaction asset ===");
+        assets.stream().filter(as -> as.getCode().equals(code) )
                 .forEach(System.out::println);
-
     }
+
+    public void transationbyYears(Scanner input){
+        System.out.println("===Recherche par years===");
+        System.out.println("Entre years: ");
+        int years= input.nextInt();
+        System.out.println("=== transaction date ===");
+        history.stream().filter(dat-> (dat.getDate().getYear()+1900) == years)
+                .forEach(System.out::println);
+    }
+
 }
