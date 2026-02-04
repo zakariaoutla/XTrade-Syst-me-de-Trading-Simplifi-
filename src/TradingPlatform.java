@@ -75,7 +75,7 @@ public class TradingPlatform {
         }else {
             t.withdraw(total);
             t.getPortfolio().addAsset(code, qty);
-            history.add(new Transaction("Achat", a, qty, a.getPrice(), new Date()));
+            history.add(new Transaction("Achat", a,t, qty, a.getPrice(), new Date()));
             System.out.println("L'opération s'est déroulée avec succés");
             System.out.println("new balance: "+ t.getBalance());
         }
@@ -107,7 +107,7 @@ public class TradingPlatform {
 
             t.deposit(totalGain);
 
-            history.add(new Transaction("Vente", a, qty, a.getPrice(), new Date()));
+            history.add(new Transaction("Vente", a, t,qty, a.getPrice(), new Date()));
 
             System.out.println("Vente réussie !");
             System.out.println("   Nouveau Solde: " + t.getBalance() + " DH");

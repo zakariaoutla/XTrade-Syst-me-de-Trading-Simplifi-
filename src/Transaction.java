@@ -3,13 +3,15 @@ import java.util.Date;
 public class Transaction {
     private String type;
     private Asset asset;
+    private Trader trader;
     private double qty;
     private double price;
     private Date date;
 
-    public Transaction(String type, Asset asset, double qty, double price, Date date) {
+    public Transaction(String type, Asset asset, Trader trader, double qty, double price, Date date) {
         this.type = type;
         this.asset = asset;
+        this.trader = trader;
         this.qty = qty;
         this.price = price;
         this.date = date;
@@ -56,11 +58,20 @@ public class Transaction {
         this.asset = asset;
     }
 
+    public Trader getTrader() {
+        return trader;
+    }
+
+    public void setTrader(Trader trader) {
+        this.trader = trader;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
                 "type='" + type + '\'' +
                 ", asset=" + asset +
+                ", trader=" + trader +
                 ", qty=" + qty +
                 ", price=" + price +
                 ", date=" + date +
