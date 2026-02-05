@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -8,6 +9,7 @@ public class Main {
         int choice = 0;
 
         do {
+            try {
             System.out.println("\n===========================================");
             System.out.println("       Bienvenue sur XTrade");
             System.out.println("===========================================");
@@ -30,7 +32,11 @@ public class Main {
                     System.out.println("5. Transactions d’un trader");
                     System.out.println("6. Recherche de trader par type");
                     System.out.println("7. Recherche de trader par code");
-                    System.out.println("8. Recherche de trader par years");
+                    System.out.println("8. Trier les transactions par : date, montant");
+                    System.out.println("9. Afficher le bilan (Volume & Totaux)");
+                    System.out.println("10. volume total échangé par trader");
+                    System.out.println("11. nombre total d’ordres passés");
+                    System.out.println("12. Classement des traders par volume (top N traders)");
                     System.out.println("0. Retour");
                     System.out.print("Choix: ");
 
@@ -60,8 +66,19 @@ public class Main {
                             plat.transactionsByActifs(input);
                             break;
                         case 8:
-                            plat.transationbyYears(input);
+                            plat.sortHistoryAndDisplay();
                             break;
+                        case 9:
+                            plat.afficherBilanGlobal();
+                            break;
+                        case 10:
+                            plat.volumeParTrader(input);
+                            break;
+                        case 11:
+                            plat.nombreTotalOrdres();
+                            break;
+                        case 12:
+                            plat.topTradersParVolume(input);
                         case 0:
                             break;
                         default: System.out.println("Choix invalide.");
@@ -96,11 +113,16 @@ public class Main {
                         default: System.out.println("Choix invalide.");
                     }
                 } while (choiceAdmin != 0);
+            }else {
+                System.out.println("Au revoir !");
+            }
+        }catch (InputMismatchException exception){
+                System.out.println("Input invalid");
+                input.nextLine();
             }
 
         } while (choice != 0);
 
-        System.out.println("Au revoir !");
-        input.close();
+
     }
 }

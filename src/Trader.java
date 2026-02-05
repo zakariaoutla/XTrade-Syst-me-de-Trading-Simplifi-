@@ -16,6 +16,9 @@ public class Trader extends Person {
         return portfolio;
     }
 
+
+
+
     public double withdraw(double amount) {
 
         this.balance -= amount;
@@ -29,6 +32,9 @@ public class Trader extends Person {
 
     @Override
     public String toString() {
-        return "ID: " + id + " | " + name + " | Solde: " + balance + " DH";
+        return "Trader{" +
+                "balance=" + balance +
+                ", portfolio=" + portfolio +
+                '}';
     }
 }

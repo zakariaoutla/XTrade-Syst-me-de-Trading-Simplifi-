@@ -1,9 +1,6 @@
-import java.security.PublicKey;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TradingPlatform {
     private List<Trader> traders = new ArrayList<>();
@@ -127,7 +124,11 @@ public class TradingPlatform {
     public void afficherHistorique() {
         System.out.println("==== HISTORIQUE GLOBAL ====");
         for (Transaction t : history) {
-            System.out.println(t);
+            System.out.println("Name : "+ t.getTrader().name);
+            System.out.println("Labale: "+ t.getAsset().getLabel());
+            System.out.println("qty: "+ t.getQty());
+            System.out.println("price: " +t.getPrice());
+            System.out.println("Type: "+ t.getType());
         }
     }
 
@@ -186,13 +187,74 @@ public class TradingPlatform {
                 .forEach(System.out::println);
     }
 
-    public void transationbyYears(Scanner input){
-        System.out.println("===Recherche par years===");
-        System.out.println("Entre years: ");
-        int years= input.nextInt();
-        System.out.println("=== transaction date ===");
-        history.stream().filter(dat-> (dat.getDate().getYear()+1900) == years)
-                .forEach(System.out::println);
+    public void sortHistoryAndDisplay() {
+        System.out.println("==== HISTORIQUE TRIÉ (DATE & MONTANT) ====");
+
+        history.stream()
+                .sorted(Comparator
+                        .comparing(Transaction::getDate)
+                        .thenComparingDouble(Transaction::getPrice))
+                .forEach(t -> {
+                    System.out.println(t.getDate() + " | " + t.getAsset().getLabel() +
+                            " | " + t.getPrice() + " DH | " + t.getType());
+                });
     }
 
+    public void afficherBilanGlobal() {
+        System.out.println("========== BILAN GLOBAL DE LA PLATEFORME ==========");
+        double totalAchats = history.stream()
+                .filter(t -> t.getType().equalsIgnoreCase("Achat"))
+                .mapToDouble(t -> t.getQty() * t.getPrice())
+                .sum();
+
+        double totalVentes = history.stream()
+                .filter(t -> t.getType().equalsIgnoreCase("Vente"))
+                .mapToDouble(t -> t.getQty() * t.getPrice())
+                .sum();
+
+        Map<String, Double> volumeMap = history.stream()
+                .collect(Collectors.groupingBy(
+                        t -> t.getAsset().getLabel(),
+                        Collectors.summingDouble(Transaction::getQty)
+                ));
+        System.out.println(">> Montant Total des ACHATS : " + totalAchats + " DH");
+        System.out.println(">> Montant Total des VENTES : " + totalVentes + " DH");
+        System.out.println("---------------------------------------------------");
+        System.out.println(">> Volume échangé par Actif :");
+        volumeMap.forEach((label, vol) -> System.out.println("   - " + label + " : " + vol));
+        System.out.println("===================================================");
+    }
+
+    public void volumeParTrader(Scanner input) {
+        Trader trader = loginTrader(input);
+        if (trader == null) return;
+        double totalVolume = history.stream()
+                .filter(t -> t.getTrader().getId() == trader.getId())
+                .mapToDouble(Transaction::getQty)
+                .sum();
+        System.out.println("Volume total pour le Trader ID " + trader.getId() + " : " + totalVolume);
+    }
+
+    public void nombreTotalOrdres() {
+        long count = history.stream().count();
+        System.out.println("Nombre total d'ordres passés sur la plateforme : " + count);
+    }
+
+    public void topTradersParVolume(Scanner input) {
+        System.out.print("Combien de top traders afficher ? ");
+        int n = input.nextInt();
+
+        System.out.println("==== TOP " + n + " TRADERS PAR VOLUME ====");
+
+        Map<String, Double> traderVolumeMap = history.stream()
+                .collect(Collectors.groupingBy(
+                        t -> t.getTrader().name,
+                        Collectors.summingDouble(Transaction::getQty)
+                ));
+
+        traderVolumeMap.entrySet().stream()
+                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+                .limit(n)
+                .forEach(entry -> System.out.println("- " + entry.getKey() + " : " + entry.getValue() + " unités"));
+    }
 }

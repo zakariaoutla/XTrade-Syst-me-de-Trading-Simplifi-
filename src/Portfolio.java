@@ -10,6 +10,14 @@ public class Portfolio {
             this.code = code;
             this.quantity = quantity;
         }
+
+        @Override
+        public String toString() {
+            return "PortfolioLine{" +
+                    "code='" + code + '\'' +
+                    ", quantity=" + quantity +
+                    '}';
+        }
     }
 
     private List<PortfolioLine> lines = new ArrayList<>();
@@ -52,5 +60,12 @@ public class Portfolio {
         for (PortfolioLine line : lines) {
             System.out.println("   - Actif: " + line.code + " | Qte: " + line.quantity);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Portfolio{" +
+                "lines=" + lines +
+                '}';
     }
 }
